@@ -1,0 +1,82 @@
+name: ppass
+options:
+  bundleIdPrefix: com.ppass
+  deploymentTarget:
+    iOS: "17.0"
+    watchOS: "10.0"
+  xcodeVersion: "15.0"
+
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+
+targets:
+  ppass:
+    type: application
+    platform: iOS
+    sources:
+      - path: ppass
+      - path: Shared
+    settings:
+      base:
+        INFOPLIST_FILE: ppass/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.ppass.ios
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: ""
+    info:
+      path: ppass/Info.plist
+      properties:
+        CFBundleDisplayName: ppass
+        CFBundleShortVersionString: "1.0"
+        CFBundleVersion: "1"
+        UILaunchScreen: {}
+        NSLocationWhenInUseUsageDescription: "ppass needs location access for proximity notifications"
+        NSPhotoLibraryUsageDescription: "ppass needs photo library access to scan QR codes"
+
+  ppassWatch:
+    type: application
+    platform: watchOS
+    sources:
+      - path: ppassWatch
+      - path: Shared
+    settings:
+      base:
+        INFOPLIST_FILE: ppassWatch/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.ppass.ios.watchkitapp
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: ""
+    info:
+      path: ppassWatch/Info.plist
+      properties:
+        CFBundleDisplayName: ppass
+        CFBundleShortVersionString: "1.0"
+        CFBundleVersion: "1"
+        WKApplication: true
+        WKCompanionAppBundleIdentifier: com.ppass.ios
+
+  ppassTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: ppassTests
+    dependencies:
+      - target: ppass
+    settings:
+      base:
+        INFOPLIST_FILE: ppassTests/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.ppass.tests
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/ppass.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ppass"
+        BUNDLE_LOADER: "$(TEST_HOST)"
+
+schemes:
+  ppass:
+    build:
+      targets:
+        ppass: all
+        ppassWatch: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - ppassTests

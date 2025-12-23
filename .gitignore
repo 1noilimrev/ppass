@@ -1,0 +1,10 @@
+.DS_Store
+.derivedData
+.swiftpm
+*.xcodeproj
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcodeproj/xcuserdata/
+xcuserdata/
+DerivedData/
+.build/
